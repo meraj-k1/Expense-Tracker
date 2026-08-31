@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:password@localhost:5432/expenseTracker"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres.ainvamrqpmkxfjhsvuch:ExpeseTracker@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgresr"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL,)
 
