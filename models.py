@@ -1,0 +1,21 @@
+from database import Base
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    amount = Column(Float)
+    type = Column(String)
+    category = Column(String)
+    date = Column(Date, nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id"))
