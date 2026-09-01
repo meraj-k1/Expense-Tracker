@@ -68,7 +68,7 @@ def update_transacation(transaction_id: int, transaction_data: TransactionUpdate
 @router.delete("/{transaction_id}", status_code=200)
 def delete_transaction(transaction_id: int, user: user_dependency, db: db_dependency):
 
-    transaction = db.query(Transaction).filter(Transaction.id == transaction_id, Transaction.owner_id == user["id"])
+    transaction = db.query(Transaction).filter(Transaction.id == transaction_id, Transaction.owner_id == user["id"]).first()
 
     if transaction is None:
         raise HTTPException(status_code=404, detail="Transaction Not Found")
@@ -85,7 +85,7 @@ def filter_transaction(user: user_dependency, db: db_dependency, type:str | None
 
     if type is not None:
         query = query.filter(Transaction.type == type)
-    if category is not category:
+    if category is not None:
             query = query.filter(Transaction.category == category)
     if min_amount is not None:
             query = query.filter(Transaction.amount >= min_amount)
