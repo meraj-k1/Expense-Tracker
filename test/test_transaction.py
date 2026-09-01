@@ -65,6 +65,29 @@ def test_create_transaction():
     assert data["title"] == "Lunch"
     assert data["amount"] == 200
 
+def test_delete_transaction():
+    token = get_token()
+
+    response = client.post("/create_transaction/", json={
+        "title": "Dinner",
+        "amount": 400,
+        "type": "expense",
+        "category": "Food",
+        "date": "2026-08-31"
+    },
+    headers={
+        "Authorization":f"Bearer {token}"
+    })
+
+    assert response.status_code == status.HTTP_201_CREATED
+    transaction_id = response.json()["id"]
+
+    response = client.delete(f"/{transaction_id}/",headers={
+        "Authorization": f"Bearer {token}"
+    })
+
+    assert response.status_code == status.HTTP_200_OK
+
 def test_get_transaction():
     token = get_token()
 
@@ -100,3 +123,33 @@ def test_filter_transaction():
     assert response.status_code == status.HTTP_200_OK
 
     assert isinstance(response.json(), list)
+
+def test_update_transaction():
+    token = get_token()
+
+    response = client.post("/create_transaction/", json={
+        "title": "Dinner",
+        "amount": 400,
+        "type": "expense",
+        "category": "Food",
+        "date": "2026-08-31"
+    },
+    headers={
+        "Authorization":f"Bearer {token}"
+    })
+
+    assert response.status_code == status.HTTP_201_CREATED
+    transaction_id = response.json()["id"]
+
+    response = client.put(f"/transaction/{transaction_id}/",json={
+        "title": "Dinner",
+        "amount": 400,
+        "type": "expense",
+        "category": "Food",
+        "date": "2026-08-31"
+        
+    },headers={
+        "Authorization": f"Bearer {token}"
+    })
+
+    assert response.status_code == status.HTTP_200_OK
